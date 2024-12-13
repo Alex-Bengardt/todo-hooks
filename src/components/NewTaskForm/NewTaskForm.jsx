@@ -49,7 +49,7 @@ const NewTaskForm = ({ addTask }) => {
         placeholder="Min"
         value={mins}
         onChange={({ target }) => useHandleTask('mins', target.value)}
-        // required
+        required
       />
       <input
         type="number"
@@ -59,7 +59,7 @@ const NewTaskForm = ({ addTask }) => {
         placeholder="Sec"
         value={secs}
         onChange={({ target }) => useHandleTask('secs', target.value)}
-        // required
+        required
       />
       <button style={{ display: 'none' }}></button>
     </form>

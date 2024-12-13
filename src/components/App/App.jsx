@@ -82,15 +82,23 @@ const App = () => {
     setTasksList((tasksList) => tasksList.filter((task) => task.id !== id))
   }
 
-  const findTaskIndex = (id) => tasksList.findIndex((task) => task.id === id)
-
   const toggleTaskProperty = (id, prop, value = null) => {
     setTasksList((tasks) =>
       tasks.map((task) => (task.id === id ? { ...task, [prop]: value !== null ? value : !task[prop] } : task))
     )
   }
 
-  const toggleTaskCompleted = (id) => toggleTaskProperty(id, 'isCompleted')
+  const toggleTaskCompleted = (id) => {
+    setTasksList((tasks) =>
+      tasks.map((task) => {
+        if (task.id === id) {
+          return { ...task, isCompleted: !task.isCompleted, timer: false, timerSecs: 0 }
+        }
+        return task
+      })
+    )
+  }
+
   const toggleTaskEditing = (id) => toggleTaskProperty(id, 'isEditing')
 
   const changeTaskText = (id, description) => {
@@ -119,8 +127,8 @@ const App = () => {
       tasksList.map((task) => {
         if (task.timer && task.timerSecs > 0) {
           return { ...task, timerSecs: task.timerSecs - 1 }
-        } else if (task.timerSecs <= 0) {
-          return { ...task, timer: false }
+        } else if (task.timerSecs <= 0 && task.timer) {
+          return { ...task, isCompleted: true, timer: false, timerSecs: 0 }
         }
         return task
       })
